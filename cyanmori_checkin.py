@@ -96,7 +96,6 @@ def combine():
     check_in_result = check_in()
     user_info.check_in_result = check_in_result
     html_table_str = generate_html_table(user_info)
-    save_check_log(user_info)
     send_email(html_table_str)
 
 def generate_html_table(user_info):
@@ -111,26 +110,6 @@ def date_converter(obj):
     if isinstance(obj, datetime.date):
         return obj.strftime('%Y-%m-%d')
     raise TypeError(f"Object of type '{obj.__class__.__name__}' is not JSON serializable")
-
-def save_check_log(check_in_log):
-    script_path = os.path.dirname(os.path.abspath(__file__))
-    file_path = os.path.join(script_path, "checkin.json")
-    if not os.path.exists(file_path):
-    # 如果文件不存在，则创建并写入空的 JSON 数组
-        with open(file_path, "w", encoding='utf-8') as file:
-            json.dump([], file)
-
-    # 读取现有的 JSON 文件内容
-    with open(file_path, "r", encoding='utf-8') as file:
-        existing_data = json.load(file)
-
-    # 将新的对象数据添加到已有的对象列表中
-    existing_data.append(check_in_log.__dict__)
-
-    # 将更新后的对象列表保存到同一个 JSON 文件中
-    with open(file_path, "w", encoding="utf-8") as file:
-        json.dump(existing_data, file, ensure_ascii=False, default=date_converter)
-
 
 
 def send_email(msg):
