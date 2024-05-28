@@ -30,7 +30,7 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Run weather Report
       run: |
-        python weather_report.py
+        python cyanmori_checkin.py
       env:
         CYANMORI_USERNAME: ${{ secrets.CYANMORI_USERNAME }}
         CYANMORI_PASSWD: ${{ secrets.CYANMORI_PASSWD }}
